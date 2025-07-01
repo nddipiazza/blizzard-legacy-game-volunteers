@@ -1,6 +1,6 @@
 # Blizzard Legacy Game Volunteer Platform
 
-This is the source code behing the web site [https://fixsc2.com](https://fixsc2.com)
+This is the source code behind the web site [https://fixsc2.com](https://fixsc2.com)
 
 A modern web application for recruiting C++ game software engineers to volunteer on Blizzard's legacy software, specifically StarCraft 2 and other legacy titles.
 
