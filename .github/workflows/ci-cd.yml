@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint
+        run: npm run lint
+        
+      - name: Build
+        run: npm run build
+        
+      # Add testing step when tests are available
+      # - name: Test
+      #   run: npm test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    # Only deploy from the main branch
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Deploy to Vercel
+        run: |
+          echo "To enable automatic deployment to Vercel:"
+          echo "1. Create a Vercel account and link it to this repository"
+          echo "2. Configure automatic deployments in the Vercel dashboard"
+          echo "3. Or add a Vercel deployment action here using Vercel's GitHub integration"

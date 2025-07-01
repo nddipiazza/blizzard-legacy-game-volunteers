@@ -99,7 +99,7 @@ export default function OpportunitiesPage() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl font-bold text-blue-900 mb-4">Volunteer Opportunities</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Join the passionate community of developers helping to maintain and improve StarCraft 2's legacy code
           </p>
         </motion.div>

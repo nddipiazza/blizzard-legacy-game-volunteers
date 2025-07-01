@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://admin:adminpassword@mongodb:27017/blizzard?authSource=admin
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=your_nextauth_secret
+    depends_on:
+      - mongodb
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
+    volumes:
+      - blizzard-mongo-data:/data/db
+
+volumes:
+  blizzard-mongo-data:

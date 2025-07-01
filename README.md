@@ -2,6 +2,8 @@
 
 A modern web application for recruiting C++ game software engineers to volunteer on Blizzard's legacy software, specifically StarCraft 2 and other legacy titles.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fblizzard-legacy-game-volunteer-platform)
+
 ## 🌊 Motivation
 
 This platform was inspired by the challenges faced by legacy Blizzard games since Microsoft's acquisition of Blizzard/Activision. As support for beloved titles like StarCraft 2 has become more difficult and expensive to maintain, we aim to create a community-driven solution.
@@ -48,16 +50,47 @@ We recognize that this initiative may still require resources from Blizzard for 
 - Node.js 18.17.0 or later
 - MongoDB instance (local or Atlas)
 
+### Hosting Options
+
+This application can be deployed to:
+
+1. **[Vercel](https://vercel.com)** (Recommended) - Click the "Deploy with Vercel" button above
+2. **[Railway](https://railway.app)** - Platform-as-a-service with easy MongoDB integration
+3. **[Netlify](https://netlify.com)** - Simple deployment with continuous integration
+4. **Self-hosted** - Using Docker (Dockerfile included)
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
+
 ### Environment Setup
 
 1. Clone the repository
-2. Create a `.env.local` file in the root directory with the following variables:
+2. Create a MongoDB database (two options):
+   
+   **Option A: Local MongoDB** (for development)
+   ```bash
+   docker run --name blizzard-mongodb -p 27017:27017 -v blizzard-mongo-data:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=adminpassword -d mongo:latest
+   ```
+   
+   **Option B: MongoDB Atlas** (for production)
+   - Create a free account on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+   - Create a cluster, database user, and configure network access
+   - Get your connection string (See detailed guide in DEPLOYMENT.md)
 
-```
-MONGODB_URI=mongodb://admin:adminpassword@localhost:27017/blizzard?authSource=admin
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your_nextauth_secret
-```
+3. Create a `.env.local` file in the root directory with the following variables:
+
+   For local MongoDB:
+   ```
+   MONGODB_URI=mongodb://admin:adminpassword@localhost:27017/blizzard?authSource=admin
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_nextauth_secret
+   ```
+
+   For MongoDB Atlas:
+   ```
+   MONGODB_URI=mongodb+srv://<username>:<password>@your-cluster.mongodb.net/blizzard?retryWrites=true&w=majority
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_nextauth_secret
+   ```
 
 > Note: The NEXTAUTH_SECRET should be a secure random string. You can generate one with: `openssl rand -base64 32`
 
