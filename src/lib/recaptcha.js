@@ -29,6 +29,19 @@ export async function verifyRecaptcha(token) {
     });
     
     const data = await response.json();
+    
+    console.log('reCAPTCHA verification response:', data);
+    
+    // For reCAPTCHA v3, check the score (0.0 to 1.0)
+    // 1.0 is very likely a good interaction, 0.0 is very likely a bot
+    if (data.success && data.score !== undefined) {
+      // This is a v3 response with score
+      const minScore = 0.3; // Lower threshold for testing
+      console.log(`reCAPTCHA v3 score: ${data.score}`);
+      return data.success && data.score >= minScore;
+    }
+    
+    // For v2, just check success
     return data.success;
   } catch (error) {
     console.error('reCAPTCHA verification error:', error);

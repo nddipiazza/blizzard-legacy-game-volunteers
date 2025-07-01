@@ -1,36 +1,113 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { signIn } from 'next-auth/react';
-import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function Register() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [recaptchaVerified, setRecaptchaVerified] = useState(false);
-  const recaptchaRef = useRef(null);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   
   const password = watch('password', '');
+
+  // Load reCAPTCHA v3 script
+  useEffect(() => {
+    // Remove any existing reCAPTCHA script to avoid conflicts
+    const existingScript = document.querySelector('script[src^="https://www.google.com/recaptcha/api.js"]');
+    if (existingScript) {
+      document.body.removeChild(existingScript);
+    }
+    
+    // Load the reCAPTCHA v3 script
+    const loadRecaptchaScript = () => {
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+      console.log('Loading reCAPTCHA with site key:', siteKey);
+      
+      const script = document.createElement('script');
+      script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    };
+
+    loadRecaptchaScript();
+    
+    // Cleanup function
+    return () => {
+      const script = document.querySelector('script[src^="https://www.google.com/recaptcha/api.js"]');
+      if (script) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
   
   const onSubmit = async (data) => {
     try {
-      if (!recaptchaVerified) {
-        setError('Please complete the reCAPTCHA verification');
-        return;
-      }
-      
       setIsLoading(true);
       setError('');
       
-      // Get the reCAPTCHA token
-      const recaptchaToken = recaptchaRef.current.getValue();
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+      console.log('Using reCAPTCHA site key:', siteKey);
       
+      // Execute reCAPTCHA v3 and get the token
+      if (typeof window !== 'undefined' && window.grecaptcha) {
+        console.log('grecaptcha found, executing...');
+        
+        try {
+          // Make sure grecaptcha is fully loaded
+          await new Promise((resolve) => {
+            if (window.grecaptcha.ready) {
+              window.grecaptcha.ready(resolve);
+            } else {
+              resolve(); // Fallback if .ready is not available
+            }
+          });
+          
+          console.log('grecaptcha is ready');
+          
+          // Get the token
+          const token = await window.grecaptcha.execute(siteKey, { action: 'register' });
+          console.log('reCAPTCHA token obtained:', token ? 'Yes (token exists)' : 'No (token is empty)');
+          
+          if (!token) {
+            throw new Error('Failed to get reCAPTCHA token');
+          }
+          
+          setRecaptchaToken(token);
+          
+          // Continue with form submission
+          await submitForm(data, token);
+        } catch (error) {
+          console.error('reCAPTCHA execution error:', error);
+          setError('Error with reCAPTCHA verification. Please refresh and try again.');
+          setIsLoading(false);
+        }
+      } else {
+        console.error('grecaptcha not found or not loaded properly');
+        // For development testing, allow submission without reCAPTCHA
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Development environment detected, proceeding without reCAPTCHA');
+          await submitForm(data, 'dev-no-recaptcha');
+        } else {
+          setError('reCAPTCHA could not be loaded. Please refresh the page or check if you have scripts blocked.');
+          setIsLoading(false);
+        }
+      }
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
+  };
+  
+  // Separated form submission logic
+  const submitForm = async (data, recaptchaToken) => {
+    try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -209,17 +286,10 @@ export default function Register() {
             <p className="text-red-500 text-xs mt-1">{errors.terms.message}</p>
           )}
           
-          <div className="flex justify-center my-4">
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} // Using testing key as fallback
-              onChange={(value) => setRecaptchaVerified(!!value)}
-            />
-          </div>
+          {/* reCAPTCHA v3 is invisible and runs in the background */}
           {error && error.includes('reCAPTCHA') && (
             <p className="text-red-500 text-sm text-center">{error}</p>
           )}
-
           <div>
             <motion.button
               type="submit"
