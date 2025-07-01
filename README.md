@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Blizzard Volunteer Platform
 
-## Getting Started
+A modern web application for recruiting C++ game software engineers to volunteer on Blizzard's legacy software, specifically StarCraft 2.
 
-First, run the development server:
+## 🌟 Features
+
+- User registration and authentication
+- Browse and search volunteer opportunities
+- Apply to opportunities that match your skills
+- Track application status
+- Admin dashboard for project leads
+- Skill-matching system for C++ game developers
+- Responsive, modern UI
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Next.js with App Router, React, TailwindCSS, Framer Motion
+- **Backend**: Next.js API Routes
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: NextAuth.js
+- **Form Handling**: React Hook Form
+- **Styling**: TailwindCSS
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18.17.0 or later
+- MongoDB instance (local or Atlas)
+
+### Environment Setup
+
+1. Clone the repository
+2. Create a `.env.local` file in the root directory with the following variables:
+
+```
+MONGODB_URI=mongodb://admin:adminpassword@localhost:27017/blizzard?authSource=admin
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+```
+
+> Note: The NEXTAUTH_SECRET should be a secure random string. You can generate one with: `openssl rand -base64 32`
+
+### Installation
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+### Development
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run mongodb using docker.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+We will create a folder called /blizzard
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+docker run --name blizzard-mongodb -p 27017:27017 -v blizzard-mongo-data:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=adminpassword -d mongo:latest
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-To learn more about Next.js, take a look at the following resources:
+### Build and Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Build for production:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+Start the production server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 Project Structure
+
+- `src/app` - Next.js App Router pages and API routes
+- `src/components` - Reusable React components
+- `src/lib` - Utility functions and configuration
+- `src/models` - Mongoose database models
+
+## 🔒 Authentication
+
+The platform uses NextAuth.js for authentication with:
+- Credentials Provider (email/password)
+- MongoDB adapter for session management
+
+## 👥 User Roles
+
+- **Volunteer**: Can browse opportunities, apply, and track applications
+- **Project Lead**: Can create opportunities and review applications
+- **Admin**: Has full access to manage the platform
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
