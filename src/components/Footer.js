@@ -7,10 +7,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About Section */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Blizzard Volunteers</h3>
+            <h3 className="text-xl font-bold mb-4">Blizzard Legacy Game Volunteers</h3>
             <p className="text-gray-300 mb-4">
               Join our community of C++ developers contributing to Blizzard's legacy games.
-              Make an impact on StarCraft 2 while enhancing your game development skills.
+              Make an impact on StarCraft 2 and other legacy titles while enhancing your game development skills.
             </p>
           </div>
           

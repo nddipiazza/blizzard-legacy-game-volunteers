@@ -212,7 +212,7 @@ export default function Dashboard() {
                   {session?.user?.name?.charAt(0) || 'U'}
                 </div>
                 <div>
-                  <p className="font-medium">{session?.user?.name}</p>
+                  <p className="font-medium text-gray-900">{session?.user?.name}</p>
                   <p className="text-sm text-gray-600">{session?.user?.email}</p>
                 </div>
               </div>

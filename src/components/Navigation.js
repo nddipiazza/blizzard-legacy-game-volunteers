@@ -61,7 +61,7 @@ export default function Navigation() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <span className="text-white font-bold text-xl md:text-2xl">Blizzard Volunteers</span>
+              <span className="text-white font-bold text-xl md:text-2xl">Blizzard Legacy Game Volunteers</span>
             </Link>
           </div>
           

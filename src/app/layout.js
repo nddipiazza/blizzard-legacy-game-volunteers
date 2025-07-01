@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Blizzard Volunteers - StarCraft 2 C++ Development",
-  description: "Join our community of C++ game developers volunteering on Blizzard's StarCraft 2 legacy software.",
+  title: "Blizzard Legacy Game Volunteer Platform",
+  description: "Join our community of C++ game developers volunteering to help maintain Blizzard's legacy games like StarCraft 2.",
 };
 
 export default async function RootLayout({ children }) {

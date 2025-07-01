@@ -1,6 +1,26 @@
-# Blizzard Volunteer Platform
+# Blizzard Legacy Game Volunteer Platform
 
-A modern web application for recruiting C++ game software engineers to volunteer on Blizzard's legacy software, specifically StarCraft 2.
+A modern web application for recruiting C++ game software engineers to volunteer on Blizzard's legacy software, specifically StarCraft 2 and other legacy titles.
+
+## 🌊 Motivation
+
+This platform was inspired by the challenges faced by legacy Blizzard games since Microsoft's acquisition of Blizzard/Activision. As support for beloved titles like StarCraft 2 has become more difficult and expensive to maintain, we aim to create a community-driven solution.
+
+[![Blizzard Legacy Game Support Video](https://img.youtube.com/vi/uA7Qqlkwhw8/0.jpg)](https://www.youtube.com/watch?v=uA7Qqlkwhw8)
+
+*Watch: Discussion about the challenges facing legacy Blizzard games that inspired this platform.*
+
+Our mission is to connect passionate, experienced game developers with the games they love, allowing them to volunteer their time and expertise to help maintain and improve these legacy titles. 
+
+The platform's goals are:
+
+1. Build a community of experienced C++ game developer volunteers
+2. Create a formal proposal for Blizzard to establish a "Legacy Game Volunteer Platform Manager" position who will:
+   - Identify, prioritize, and assign issues affecting legacy games to qualified community volunteers
+   - Facilitate code reviews and integration of community contributions
+3. Eventually become a formal Blizzard entity, creating a structured volunteer program similar to an internship
+
+We recognize that this initiative may still require resources from Blizzard for management and oversight. If necessary, we're prepared to explore crowdfunding options to support these roles.
 
 ## 🌟 Features
 

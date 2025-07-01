@@ -33,11 +33,11 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-              Contribute to <span className="text-blue-300">StarCraft 2</span> Legacy Code
+              Blizzard Legacy Game <span className="text-blue-300">Volunteer Platform</span>
             </h1>
             
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-              Join our community of C++ developers helping maintain and enhance Blizzard's iconic RTS game.
+              Join our community of C++ developers helping maintain and enhance Blizzard's legacy games like StarCraft 2.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

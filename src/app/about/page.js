@@ -24,7 +24,7 @@ export default function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Preserving and enhancing StarCraft 2 through community-driven development
+              A community-driven volunteer initiative to maintain and enhance Blizzard's legacy games
             </motion.p>
           </div>
         </div>
@@ -43,13 +43,16 @@ export default function About() {
             >
               <h2 className="text-3xl font-bold mb-6">Our Story</h2>
               <p className="text-lg text-gray-400 mb-4">
-                The Blizzard Volunteer Platform was founded by a group of passionate C++ developers and StarCraft 2 fans who wanted to help maintain and enhance this legendary game for future generations.
+                The Blizzard Legacy Game Volunteer Platform was inspired by the challenges faced by legacy Blizzard games since Microsoft's acquisition of Blizzard/Activision. As support for beloved titles like StarCraft 2 has become more difficult and expensive to maintain, we aim to create a community-driven solution.
               </p>
               <p className="text-lg text-gray-400 mb-4">
-                With Blizzard focusing on newer titles, our community provides essential support for StarCraft 2's codebase, ensuring that this iconic real-time strategy game continues to thrive and evolve.
+                Our proposal is simple: establish a "Blizzard Legacy Game Volunteer Platform Manager" position who can identify, prioritize, and assign issues affecting legacy games to qualified community volunteers, while facilitating code reviews and integration of community contributions.
+              </p>
+              <p className="text-lg text-gray-400 mb-4">
+                Our goal is to eventually become a formal Blizzard entity, creating a structured volunteer program similar to an internship.
               </p>
               <p className="text-lg text-gray-400">
-                By contributing your skills, you'll join a dedicated team working to preserve gaming history while gaining invaluable experience in game development and C++ programming.
+                We recognize that this initiative may still require resources from Blizzard for management and oversight. If necessary, we're prepared to explore crowdfunding options to support these roles.
               </p>
             </motion.div>
             <motion.div 
@@ -69,6 +72,53 @@ export default function About() {
                 />
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Inspiration Video */}
+      <section className="py-16 bg-gray-800 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.h2 
+              className="text-3xl font-bold mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+            >
+              Our Inspiration
+            </motion.h2>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="aspect-video relative mb-8"
+            >
+              <iframe 
+                width="100%" 
+                height="100%" 
+                src="https://www.youtube.com/embed/uA7Qqlkwhw8" 
+                title="Blizzard Legacy Game Support" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowFullScreen
+                className="rounded-lg shadow-lg"
+                style={{ aspectRatio: '16/9' }}
+              ></iframe>
+            </motion.div>
+            
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              viewport={{ once: true }}
+              className="text-lg text-blue-200 mb-4"
+            >
+              This video outlines the challenges facing legacy Blizzard games that inspired our platform
+            </motion.p>
           </div>
         </div>
       </section>
