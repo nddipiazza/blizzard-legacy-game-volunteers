@@ -1,24 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { signIn } from 'next-auth/react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function Register() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [recaptchaVerified, setRecaptchaVerified] = useState(false);
+  const recaptchaRef = useRef(null);
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   
   const password = watch('password', '');
   
   const onSubmit = async (data) => {
     try {
+      if (!recaptchaVerified) {
+        setError('Please complete the reCAPTCHA verification');
+        return;
+      }
+      
       setIsLoading(true);
       setError('');
+      
+      // Get the reCAPTCHA token
+      const recaptchaToken = recaptchaRef.current.getValue();
       
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -29,6 +40,7 @@ export default function Register() {
           name: data.name,
           email: data.email,
           password: data.password,
+          recaptchaToken,
         }),
       });
       
@@ -195,6 +207,17 @@ export default function Register() {
           </div>
           {errors.terms && (
             <p className="text-red-500 text-xs mt-1">{errors.terms.message}</p>
+          )}
+          
+          <div className="flex justify-center my-4">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} // Using testing key as fallback
+              onChange={(value) => setRecaptchaVerified(!!value)}
+            />
+          </div>
+          {error && error.includes('reCAPTCHA') && (
+            <p className="text-red-500 text-sm text-center">{error}</p>
           )}
 
           <div>

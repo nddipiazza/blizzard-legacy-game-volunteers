@@ -1,11 +1,21 @@
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 import { NextResponse } from 'next/server';
+import { verifyRecaptcha } from '@/lib/recaptcha';
 
 export async function POST(request) {
   try {
     await connectDB();
-    const { name, email, password } = await request.json();
+    const { name, email, password, recaptchaToken } = await request.json();
+    
+    // Verify reCAPTCHA
+    const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { message: 'reCAPTCHA verification failed. Please try again.' },
+        { status: 400 }
+      );
+    }
     
     // Check if user already exists
     const userExists = await User.findOne({ email });
