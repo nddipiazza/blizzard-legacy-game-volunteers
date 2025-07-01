@@ -9,10 +9,14 @@ export async function POST(request) {
     const { name, email, password, recaptchaToken } = await request.json();
     
     // Verify reCAPTCHA
-    const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
-    if (!isRecaptchaValid) {
+    const recaptchaResult = await verifyRecaptcha(recaptchaToken);
+    if (!recaptchaResult.success) {
+      // Return detailed error information for debugging
       return NextResponse.json(
-        { message: 'reCAPTCHA verification failed. Please try again.' },
+        { 
+          message: 'reCAPTCHA verification failed. Please try again.',
+          recaptchaDetails: recaptchaResult.details 
+        },
         { status: 400 }
       );
     }

@@ -124,6 +124,26 @@ export default function Register() {
       const responseData = await response.json();
       
       if (!response.ok) {
+        // Check if this is a reCAPTCHA error with details
+        if (responseData.recaptchaDetails) {
+          console.error('reCAPTCHA verification details:', responseData.recaptchaDetails);
+          
+          // Create a more detailed error message
+          const detailsMessage = responseData.recaptchaDetails.message || '';
+          const errorCodes = responseData.recaptchaDetails.errors?.join(', ') || '';
+          const score = responseData.recaptchaDetails.score ? 
+            `Score: ${responseData.recaptchaDetails.score}` : '';
+            
+          const detailedError = [
+            responseData.message,
+            detailsMessage !== responseData.message ? detailsMessage : '',
+            errorCodes ? `Error codes: ${errorCodes}` : '',
+            score
+          ].filter(Boolean).join(' - ');
+          
+          throw new Error(detailedError);
+        }
+        
         throw new Error(responseData.message || 'Something went wrong');
       }
       
@@ -175,7 +195,14 @@ export default function Register() {
         >
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
-              {error}
+              <p className="font-medium">{error.split(' - ')[0]}</p>
+              {error.includes(' - ') && (
+                <ul className="mt-2 text-sm list-disc pl-5">
+                  {error.split(' - ').slice(1).map((detail, index) => (
+                    <li key={index}>{detail}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
           
@@ -287,9 +314,6 @@ export default function Register() {
           )}
           
           {/* reCAPTCHA v3 is invisible and runs in the background */}
-          {error && error.includes('reCAPTCHA') && (
-            <p className="text-red-500 text-sm text-center">{error}</p>
-          )}
           <div>
             <motion.button
               type="submit"
