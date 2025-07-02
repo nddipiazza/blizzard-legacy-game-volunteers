@@ -105,200 +105,156 @@ export default function OpportunityDetailPage({ params }) {
   }
   
   return (
-    <div className="py-10 min-h-screen">
-      <div className="container mx-auto px-4 max-w-4xl">
-        {/* Back navigation */}
-        <div className="mb-6">
-          <Link 
-            href="/opportunities" 
-            className="inline-flex items-center text-blue-600 hover:text-blue-800"
-          >
-            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back to all opportunities
-          </Link>
-        </div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-white rounded-lg shadow-md overflow-hidden"
-        >
-          {/* Header with status badge */}
-          <div className="bg-gradient-to-r from-blue-800 to-blue-600 px-6 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-white">{opportunity.title}</h1>
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-              opportunity.status === 'open' 
-                ? 'bg-green-100 text-green-800' 
-                : opportunity.status === 'filled'
-                ? 'bg-blue-100 text-blue-800'
-                : 'bg-red-100 text-red-800'
-            }`}>
-              {opportunity.status.charAt(0).toUpperCase() + opportunity.status.slice(1)}
-            </span>
+    <div className="min-h-screen">
+      {/* Hero section with blue background */}
+      <section className="bg-blue-900 text-white py-16 adaptive-dark-section">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="flex items-center mb-6">
+            <Link 
+              href="/opportunities" 
+              className="inline-flex items-center adaptive-blue-text hover:adaptive-white mr-4"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+              </svg>
+              Back to Opportunities
+            </Link>
           </div>
           
-          <div className="p-6">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-6">
-                {error}
-              </div>
-            )}
-            
-            {successMessage && (
-              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md mb-6">
-                {successMessage}
-              </div>
-            )}
-            
-            {/* Project info */}
-            <div className="mb-8">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full">
-                  Project: {opportunity.project}
-                </span>
-                <span className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full">
-                  Time Commitment: {opportunity.timeCommitment}
-                </span>
-                <span className="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded-full">
-                  Posted: {new Date(opportunity.createdAt).toLocaleDateString()}
-                </span>
-              </div>
-              
-              <div className="prose max-w-none">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Description</h2>
-                <p className="mb-6 whitespace-pre-line">{opportunity.description}</p>
-                
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Requirements</h2>
-                <ul className="list-disc pl-5 mb-6 space-y-1">
-                  {opportunity.requirements.map((req, index) => (
-                    <li key={index} className="text-gray-700">{req}</li>
-                  ))}
-                </ul>
-                
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Skills Needed</h2>
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {opportunity.skillsNeeded.map((skill) => (
-                    <span 
-                      key={skill} 
-                      className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-md"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-3xl md:text-4xl font-bold mb-3">{opportunity.title}</h1>
+            <div className="flex flex-wrap items-center adaptive-blue-text mb-2">
+              <span className="mr-6">Status: <span className={`font-semibold ${isOpen ? 'text-green-400' : 'text-red-400'}`}>{opportunity.status.toUpperCase()}</span></span>
+              <span>Time Commitment: <span className="font-semibold">{opportunity.timeCommitment}</span></span>
             </div>
-            
-            {/* Application section */}
-            <div className="border-t pt-8">
-              {session ? (
-                <div className="flex flex-col items-center justify-center text-center p-6 bg-gray-50 rounded-lg">
-                  {hasApplied ? (
-                    <div>
-                      <div className="bg-green-100 rounded-full p-3 inline-flex mb-4">
-                        <svg className="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        Application Submitted
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        Thank you for your interest! We'll review your application and get back to you soon.
-                      </p>
-                      <Link 
-                        href="/dashboard" 
-                        className="text-blue-600 hover:text-blue-800"
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Content section */}
+      <div className="py-10">
+        <div className="container mx-auto px-4 max-w-4xl">
+          {/* Success message */}
+          {successMessage && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-green-50 border border-green-200 text-green-700 px-6 py-4 rounded-md mb-8"
+            >
+              <p className="font-semibold">{successMessage}</p>
+            </motion.div>
+          )}
+          
+          {/* Error message */}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-md mb-8">
+              <p className="font-semibold">{error}</p>
+            </div>
+          )}
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              {/* Description */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+                className="bg-white rounded-lg shadow-md p-6 mb-6"
+              >
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Description</h2>
+                <div className="prose max-w-none text-gray-700">
+                  <p className="whitespace-pre-wrap">{opportunity.description}</p>
+                </div>
+              </motion.div>
+              
+              {/* Requirements */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="bg-white rounded-lg shadow-md p-6 mb-6"
+              >
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Requirements</h2>
+                <div className="prose max-w-none text-gray-700">
+                  <p className="whitespace-pre-wrap">{opportunity.requirements || 'No specific requirements provided.'}</p>
+                </div>
+              </motion.div>
+              
+              {/* Skills Needed */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="bg-white rounded-lg shadow-md p-6"
+              >
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Skills Needed</h2>
+                <div className="flex flex-wrap gap-2">
+                  {opportunity.skillsNeeded && opportunity.skillsNeeded.length > 0 ? (
+                    opportunity.skillsNeeded.map((skill) => (
+                      <span 
+                        key={skill} 
+                        className="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
                       >
-                        Track your application in your dashboard
-                      </Link>
-                    </div>
-                  ) : isOpen ? (
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        Ready to contribute?
-                      </h3>
-                      <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                        Your skills can help improve StarCraft 2 for players around the world. Apply now to join this volunteer opportunity.
-                      </p>
-                      
-                      {session.user.profileComplete ? (
-                        <button
-                          onClick={handleApply}
-                          disabled={applying}
-                          className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300"
-                        >
-                          {applying ? (
-                            <>
-                              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                              </svg>
-                              Submitting...
-                            </>
-                          ) : 'Apply Now'}
-                        </button>
-                      ) : (
-                        <div>
-                          <p className="text-yellow-600 mb-4">
-                            You need to complete your profile before applying
-                          </p>
-                          <Link
-                            href="/profile"
-                            className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                          >
-                            Complete Your Profile
-                          </Link>
-                        </div>
-                      )}
-                    </div>
+                        {skill}
+                      </span>
+                    ))
                   ) : (
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">
-                        This opportunity is no longer accepting applications
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        Check out other open opportunities
-                      </p>
-                      <Link 
-                        href="/opportunities" 
-                        className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                      >
-                        Browse Opportunities
-                      </Link>
-                    </div>
+                    <p className="text-gray-700">No specific skills listed.</p>
                   )}
                 </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center text-center p-6 bg-gray-50 rounded-lg">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Interested in this opportunity?
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Sign in or create an account to apply for this volunteer position
-                  </p>
-                  <div className="space-x-4">
-                    <Link 
-                      href={`/login?redirect=/opportunities/${opportunityId}`}
-                      className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              </motion.div>
+            </div>
+            
+            {/* Apply sidebar */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="lg:col-span-1"
+            >
+              <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">Apply for this Opportunity</h2>
+                
+                {session ? (
+                  isOpen ? (
+                    <div>
+                      <p className="text-gray-600 mb-4">
+                        Interested in this role? Submit your application now.
+                      </p>
+                      <button
+                        onClick={handleApply}
+                        disabled={applying}
+                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300"
+                      >
+                        {applying ? 'Submitting...' : 'Apply Now'}
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-red-500 font-medium">
+                      This opportunity is no longer accepting applications.
+                    </p>
+                  )
+                ) : (
+                  <div>
+                    <p className="text-gray-600 mb-4">
+                      Please sign in to apply for this opportunity.
+                    </p>
+                    <Link
+                      href="/login"
+                      className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
-                      Log In
-                    </Link>
-                    <Link 
-                      href="/register"
-                      className="inline-flex items-center px-6 py-3 border border-gray-300 rounded-md shadow-sm text-base font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      Register
+                      Sign In
                     </Link>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-blue-900 text-white overflow-hidden">
+      <section className="relative h-screen flex items-center justify-center bg-blue-900 text-white overflow-hidden adaptive-dark-section">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/70 z-10"></div>
@@ -36,7 +36,7 @@ export default function Home() {
               Blizzard Legacy Game <span className="text-blue-300">Volunteer Platform</span>
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-white">
               Join our community of C++ developers helping maintain and enhance Blizzard's legacy games like StarCraft 2.
             </p>
             
@@ -87,7 +87,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Volunteer with Us?</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-800 dark:text-gray-300 max-w-3xl mx-auto">
               Help preserve gaming history while building your C++ skills and portfolio with real game development experience.
             </p>
           </div>

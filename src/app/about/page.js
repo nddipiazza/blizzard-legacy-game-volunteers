@@ -7,7 +7,7 @@ export default function About() {
   return (
     <div className="pt-10">
       {/* Hero section */}
-      <section className="bg-blue-900 text-white py-20">
+      <section className="bg-blue-900 text-white py-20 adaptive-dark-section">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <motion.h1 
@@ -19,7 +19,7 @@ export default function About() {
               About Our Mission
             </motion.h1>
             <motion.p 
-              className="text-xl text-blue-200 mb-8"
+              className="text-xl adaptive-blue-text mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -115,7 +115,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
               viewport={{ once: true }}
-              className="text-lg text-blue-200 mb-4"
+              className="text-lg adaptive-blue-text mb-4"
             >
               This video outlines the challenges facing legacy Blizzard games that inspired our platform
             </motion.p>

@@ -6,16 +6,16 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 // Create a simple test component as a wrapper
-const TestWrapper = ({ children }) => <div>{children}</div>;
+const TestWrapper = function({ children }) { return <div>{children}</div>; };
 TestWrapper.displayName = 'TestWrapper';
 
 // We only need very basic tests to verify things work
-const simplifiedTest = () => {
+function simplifiedTest() {
   test('Basic rendering test', () => {
     render(<div data-testid="test-div">Test</div>);
     expect(screen.getByTestId("test-div")).toBeInTheDocument();
   });
-};
+}
 
 // Mocks
 jest.mock('next/navigation', () => ({

@@ -50,7 +50,7 @@ export default function Navigation() {
   return (
     <motion.header 
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-blue-900 shadow-lg' : 'bg-transparent'
+        scrolled ? 'bg-blue-900 shadow-lg adaptive-dark-section' : 'bg-transparent'
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -76,7 +76,7 @@ export default function Navigation() {
                       className={`px-3 py-2 rounded-md text-sm font-medium ${
                         pathname === item.href 
                           ? 'text-white bg-blue-700' 
-                          : 'text-gray-300 hover:bg-blue-800 hover:text-white'
+                          : 'adaptive-blue-text hover:bg-blue-800 hover:adaptive-white'
                       } transition-all duration-200`}
                     >
                       {item.name}
@@ -84,7 +84,7 @@ export default function Navigation() {
                   ) : (
                     <button 
                       onClick={item.onClick}
-                      className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-blue-800 hover:text-white transition-all duration-200"
+                      className="px-3 py-2 rounded-md text-sm font-medium adaptive-blue-text hover:bg-blue-800 hover:adaptive-white transition-all duration-200"
                     >
                       {item.name}
                     </button>
@@ -125,7 +125,7 @@ export default function Navigation() {
         }}
         transition={{ duration: 0.2 }}
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 bg-blue-900">
+        <div className="px-2 pt-2 pb-3 space-y-1 bg-blue-900 adaptive-dark-section">
           {allNavItems.map((item) => (
             <div key={item.name}>
               {item.href ? (
@@ -134,7 +134,7 @@ export default function Navigation() {
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     pathname === item.href 
                       ? 'text-white bg-blue-700' 
-                      : 'text-gray-300 hover:bg-blue-800 hover:text-white'
+                      : 'adaptive-blue-text hover:bg-blue-800 hover:adaptive-white'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -146,7 +146,7 @@ export default function Navigation() {
                     item.onClick();
                     setMobileMenuOpen(false);
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-blue-800 hover:text-white"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium adaptive-blue-text hover:bg-blue-800 hover:adaptive-white"
                 >
                   {item.name}
                 </button>
